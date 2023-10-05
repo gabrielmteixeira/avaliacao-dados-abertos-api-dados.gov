@@ -1,0 +1,289 @@
+{
+  "urlPaginaPrincipal": null,
+  "dataAvaliacao": null,
+  "presencaTokensComuns": null,
+  "tokensComuns": [],
+  "presencaTokensEspecificosDadosAbertos": null,
+  "tokensEspecificosDadosAbertos": [],
+  "presencaURLsDownloadDados": null,
+  "possivelFalsoPositivo": null,
+  "possivelAPI": null,
+  "principiosGovernanca": {
+    "completos": {
+      "regras": {
+        "informacoesSobreMetadados": {
+          "presencaTokens": null,
+          "tokens": [],
+          "presencaURLsArquivosMetadadosAnexos": null,
+          "URLsArquivosMetadadosAnexos": [],
+          "titulo": null,
+          "emails": null,
+          "dataPublicacao": null,
+          "dataUltimaModificacao": null
+        },
+        "informacoesSobreLicenca": {
+          "presencaTokens": null,
+          "licencas": null,
+          "tokens": []
+        },
+        "informacoesSobreProcedenciaDados": {
+          "presencaTokens": null,
+          "tokens": [],
+          "organizacaoResponsavel": null
+        },
+        "informacoesSobreQualidadeDados": {
+          "presencaTokens": null,
+          "tokens": []
+        },
+        "informacoesSobreVersionamentoDados": {
+          "presencaTokens": null,
+          "tokens": [],
+          "dataUltimaModificacao": null
+        },
+        "informacoesSobreFeedback": {
+          "presencaTokens": null,
+          "tokens": [],
+          "emails": null
+        }
+      }
+    },
+    "primarios": {
+      "regras": {
+        "informacoesSobreProcedenciaDados": {
+          "presencaTokens": null,
+          "tokens": [],
+          "organizacaoResponsavel": null
+        },
+        "informacoesSobreQualidadeDados": {
+          "presencaTokens": null,
+          "tokens": []
+        },
+        "informacoesSobreFeedback": {
+          "presencaTokens": null,
+          "tokens": [],
+          "emails": null
+        }
+      }
+    },
+    "atuais": {
+      "regras": {
+        "informacoesSobreGarantirAcessoAosDados": {
+          "download": {
+            "extensoesUrlsVolumeDados": null,
+            "urlsVolumeDados": [],
+            "presencaTokensUrlsDadosAtualizados": null,
+            "tokensUrlsDadosAtualizados": [],
+            "extensoesDownloadMassivo": []
+          },
+          "APIs": {
+            "presencaTokensPaginaAPI": null,
+            "tokensPaginaAPI": [],
+            "presencaDocAPI": null,
+            "URLDocAPI": [],
+            "presencaTokensURLsDoc": null
+          }
+        }
+      }
+    },
+    "facilidadeAcessoFisicoOuEletronico": {
+      "regras": {
+        "informacoesSobreGarantirAcessoAosDados": {
+          "download": {
+            "extensoesUrlsVolumeDados": null,
+            "urlsVolumeDados": [],
+            "presencaTokensUrlsDadosAtualizados": null,
+            "tokensUrlsDadosAtualizados": [],
+            "extensoesDownloadMassivo": []
+          },
+          "APIs": {
+            "presencaTokensPaginaAPI": null,
+            "tokensPaginaAPI": [],
+            "presencaDocAPI": null,
+            "URLDocAPI": [],
+            "presencaTokensURLsDoc": null
+          }
+        }
+      }
+    },
+    "processaveisPorMaquina": {
+      "regras": {
+        "informacoesSobreIdentificadoresDeDados": {
+          "presencaDeURLsPersistentes": {
+            "URLsSubdominiosAdmSeparadosPrincipal": null,
+            "indicativosURLsConjDados": {
+              "presencaTokensURL": null,
+              "tokensURL": [],
+              "presencaFormatoDados": null,
+              "formatosDados": [],
+              "urlsComFormatoDados": []
+            }
+          }
+        },
+        "informacoesSobreFormatosDeDados": {
+          "presencaTokens": null,
+          "tokens": []
+        }
+      }
+    },
+    "naoDiscriminatorio": {
+      "regras": {
+        "informacoesSobreGarantirAcessoAosDados": {
+          "download": {
+            "extensoesUrlsVolumeDados": null,
+            "urlsVolumeDados": [],
+            "presencaTokensUrlsDadosAtualizados": null,
+            "tokensUrlsDadosAtualizados": [],
+            "extensoesDownloadMassivo": []
+          },
+          "APIs": {
+            "presencaTokensPaginaAPI": null,
+            "tokensPaginaAPI": [],
+            "presencaDocAPI": null,
+            "URLDocAPI": [],
+            "presencaTokensURLsDoc": null
+          }
+        },
+        "informacoesSobrePreservacaoDosDados": {
+          "presencaTokens": null,
+          "tokens": []
+        },
+        "informacoesSobreLicenca": {
+          "presencaTokens": null,
+          "licencas": null,
+          "tokens": []
+        },
+        "informacoesSobreMetadados": {
+          "presencaTokens": null,
+          "tokens": [],
+          "presencaURLsArquivosMetadadosAnexos": null,
+          "URLsArquivosMetadadosAnexos": [],
+          "titulo": null,
+          "emails": null,
+          "dataPublicacao": null,
+          "dataUltimaModificacao": null
+        },
+        "informacoesSobreFeedback": {
+          "presencaTokens": null,
+          "tokens": [],
+          "emails": null
+        }
+      }
+    },
+    "formatosDePropriedadeComumOuAberto": {
+      "regras": {
+        "informacoesSobreFormatosDeDados": {
+          "presencaTokens": null,
+          "tokens": []
+        },
+        "informacoesSobreLicenca": {
+          "presencaTokens": null,
+          "licencas": null,
+          "tokens": []
+        },
+        "informacoesSobreGarantirAcessoAosDados": {
+          "download": {
+            "extensoesUrlsVolumeDados": null,
+            "urlsVolumeDados": [],
+            "presencaTokensUrlsDadosAtualizados": null,
+            "tokensUrlsDadosAtualizados": [],
+            "extensoesDownloadMassivo": []
+          },
+          "APIs": {
+            "presencaTokensPaginaAPI": null,
+            "tokensPaginaAPI": [],
+            "presencaDocAPI": null,
+            "URLDocAPI": [],
+            "presencaTokensURLsDoc": null
+          }
+        }
+      }
+    },
+    "licencasLivres": {
+      "regras": {
+        "informacoesSobreRepublicacaoDosDados": {
+          "presencaTokens": null,
+          "tokens": [],
+          "publicacaoOriginal": null,
+          "linkPublicacaoOriginal": null
+        },
+        "informacoesSobreLicenca": {
+          "presencaTokens": null,
+          "licencas": null,
+          "tokens": []
+        }
+      }
+    },
+    "permanencia": {
+      "regras": {
+        "informacoesSobreIdentificadoresDeDados": {
+          "presencaDeURLsPersistentes": {
+            "URLsSubdominiosAdmSeparadosPrincipal": null,
+            "indicativosURLsConjDados": {
+              "presencaTokensURL": null,
+              "tokensURL": [],
+              "presencaFormatoDados": null,
+              "formatosDados": [],
+              "urlsComFormatoDados": []
+            }
+          }
+        },
+        "informacoesSobrePreservacaoDosDados": {
+          "presencaTokens": null,
+          "tokens": []
+        },
+        "informacoesSobreGarantirAcessoAosDados": {
+          "download": {
+            "extensoesUrlsVolumeDados": null,
+            "urlsVolumeDados": [],
+            "presencaTokensUrlsDadosAtualizados": null,
+            "tokensUrlsDadosAtualizados": [],
+            "extensoesDownloadMassivo": []
+          },
+          "APIs": {
+            "presencaTokensPaginaAPI": null,
+            "tokensPaginaAPI": [],
+            "presencaDocAPI": null,
+            "URLDocAPI": [],
+            "presencaTokensURLsDoc": null
+          }
+        },
+        "informacoesSobreRepublicacaoDosDados": {
+          "presencaTokens": null,
+          "tokens": [],
+          "publicacaoOriginal": null,
+          "linkPublicacaoOriginal": null
+        },
+        "informacoesSobreVersionamentoDados": {
+          "presencaTokens": null,
+          "tokens": [],
+          "dataUltimaModificacao": null
+        }
+      }
+    },
+    "custosDeUtilizacao": {
+      "regras": {
+        "informacoesSobreGarantirAcessoAosDados": {
+          "download": {
+            "extensoesUrlsVolumeDados": null,
+            "urlsVolumeDados": [],
+            "presencaTokensUrlsDadosAtualizados": null,
+            "tokensUrlsDadosAtualizados": [],
+            "extensoesDownloadMassivo": []
+          },
+          "APIs": {
+            "presencaTokensPaginaAPI": null,
+            "tokensPaginaAPI": [],
+            "presencaDocAPI": null,
+            "URLDocAPI": [],
+            "presencaTokensURLsDoc": null
+          }
+        },
+        "informacoesSobreFeedback": {
+          "presencaTokens": null,
+          "tokens": [],
+          "emails": null
+        }
+      }
+    }
+  }
+}
