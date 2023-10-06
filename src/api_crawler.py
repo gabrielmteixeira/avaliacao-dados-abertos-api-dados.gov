@@ -28,9 +28,8 @@ def colhe_nomes_conjuntos_de_dados(arquivo_destino: str):
 
 
 def colhe_conjuntos_de_dados(arquivo_nomes_conjuntos_de_dados: str, diretorio_destino: str):
-  os.makedirs(diretorio_destino, exist_ok=True)  
-  
   with open(arquivo_nomes_conjuntos_de_dados, 'r') as arquivo:
+    id_conjunto = 0
     for nome_conjunto_de_dados in arquivo:
       nome_conjunto_de_dados = nome_conjunto_de_dados.strip()
       request_conjunto_de_dados = f'https://dados.gov.br/api/publico/conjuntos-dados/{nome_conjunto_de_dados}'
@@ -39,16 +38,17 @@ def colhe_conjuntos_de_dados(arquivo_nomes_conjuntos_de_dados: str, diretorio_de
         conjunto_de_dados = json.loads(response_conjunto_de_dados.text)
         conjunto_de_dados_valido = conjunto_de_dados.get('id') is not None
         if conjunto_de_dados_valido:
-          caminho_arquivo = os.path.join(diretorio_destino, f'{nome_conjunto_de_dados}.json')
+          caminho_arquivo = os.path.join(diretorio_destino, f'{id_conjunto}.json')
           with open(caminho_arquivo, 'w', encoding='utf-8') as arquivo_conjunto_de_dados:
-            conjunto_de_dados_json = json.dumps(conjunto_de_dados, indent=2)
+            conjunto_de_dados_json = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
             arquivo_conjunto_de_dados.write(conjunto_de_dados_json)
+        id_conjunto += 1
       except json.JSONDecodeError as e:
         with open('log_conjuntos_json_improprio.txt', 'a', encoding='utf-8') as arquivo_log_json_improprio:
           arquivo_log_json_improprio.write(nome_conjunto_de_dados + '\n')
 
-
+          
 arquivo_nomes_conjuntos_de_dados = 'nomes_registros.txt'
-colhe_nomes_conjuntos_de_dados(arquivo_nomes_conjuntos_de_dados)
 diretorio_destino = 'conjuntos_de_dados'
-colhe_conjuntos_de_dados(arquivo_nomes_conjuntos_de_dados, diretorio_destino)
+os.makedirs(diretorio_destino, exist_ok=True)  
+colhe_nomes_conjuntos_de_dados(arquivo_nomes_conjuntos_de_dados)

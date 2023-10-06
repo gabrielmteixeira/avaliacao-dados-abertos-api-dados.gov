@@ -537,5 +537,5 @@ def gera_saidas_json(diretorio_dados: str, diretorio_saidas_json: str):
       saida_json = processa_conjunto_de_dados(caminho_arquivo)
 
       caminho_saida = os.path.join(diretorio_saidas_json, nome_arquivo)
-      with open(caminho_saida, 'w') as arquivo_saida:
-        arquivo_saida.write(json.dumps(saida_json, indent=2))
+      with open(caminho_saida, 'w', encoding='utf-8') as arquivo_saida:
+        arquivo_saida.write(json.dumps(saida_json, ensure_ascii=False, indent=2))

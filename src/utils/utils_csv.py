@@ -163,13 +163,13 @@ def verifica_cite_the_original_publication(saida_json: dict):
   return cite_the_original_publication
 
 
-def processa_saida_json(saida_json: dict):
+def processa_saida_json(saida_json: dict, id_json: int):
   site = saida_json['urlPaginaPrincipal']
   data_avaliacao = saida_json['dataAvaliacao']
   provide_metadata, provide_descriptive_metadata = verifica_metadata(saida_json)
 
   boas_praticas_dados_web = {
-    'idJson' : None,
+    'idJson' : id_json,
     'site' : site,
     'data_avaliacao' : data_avaliacao,
     'possivel_falso_positivo' : saida_json['possivelFalsoPositivo'],
@@ -197,9 +197,10 @@ def gera_csv_dwbp(diretorio_saidas_json: str, diretorio_saida_csv: str):
 
   for nome_arquivo in os.listdir(diretorio_saidas_json):
     caminho_arquivo_json = os.path.join(diretorio_saidas_json, nome_arquivo)
+    id_json = int(nome_arquivo.split('.')[0])
     with open(caminho_arquivo_json, 'r', encoding='utf-8') as arquivo_json:
       saida_json = json.load(arquivo_json)
-      nova_linha_analise_boas_praticas = processa_saida_json(saida_json)
+      nova_linha_analise_boas_praticas = processa_saida_json(saida_json, id_json)
       analise_boas_praticas = pd.concat([analise_boas_praticas, nova_linha_analise_boas_praticas], ignore_index=True)
 
   os.makedirs(diretorio_saida_csv, exist_ok=True)
