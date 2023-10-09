@@ -42,7 +42,7 @@ def colhe_conjuntos_de_dados(arquivo_nomes_conjuntos_de_dados: str, diretorio_de
           with open(caminho_arquivo, 'w', encoding='utf-8') as arquivo_conjunto_de_dados:
             conjunto_de_dados_json = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
             arquivo_conjunto_de_dados.write(conjunto_de_dados_json)
-        id_conjunto += 1
+            id_conjunto += 1
       except json.JSONDecodeError as e:
         with open('log_conjuntos_json_improprio.txt', 'a', encoding='utf-8') as arquivo_log_json_improprio:
           arquivo_log_json_improprio.write(nome_conjunto_de_dados + '\n')
@@ -52,3 +52,4 @@ arquivo_nomes_conjuntos_de_dados = 'nomes_registros.txt'
 diretorio_destino = 'conjuntos_de_dados'
 os.makedirs(diretorio_destino, exist_ok=True)  
 colhe_nomes_conjuntos_de_dados(arquivo_nomes_conjuntos_de_dados)
+colhe_conjuntos_de_dados(arquivo_nomes_conjuntos_de_dados, diretorio_destino)

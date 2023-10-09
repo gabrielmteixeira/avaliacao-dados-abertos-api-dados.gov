@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+from datetime import datetime
 
 
 def verifica_metadata(saida_json: dict):
@@ -16,9 +17,9 @@ def verifica_metadata(saida_json: dict):
     
   if provide_metadata:
     titulo = 1 if informacoes_sobre_metadados['titulo'] else 0
-    data_publicacao = 1 if informacoes_sobre_metadados['dataPublicacao'] else 0
-    possibilidade_contato = 1 if informacoes_sobre_metadados['emails'] else 0
     data_ultima_modificacao = 1 if informacoes_sobre_metadados['dataUltimaModificacao'] else 0
+    possibilidade_contato = 1 if '@' in informacoes_sobre_metadados['emails'] else 0 # checar @ - Concluído
+    data_publicacao = 1 if informacoes_sobre_metadados['dataPublicacao'] else 0
     agregador = [titulo, data_publicacao, possibilidade_contato, data_ultima_modificacao]
     soma_agregador = sum(agregador)
     if soma_agregador >= 2:
@@ -83,32 +84,55 @@ def verifica_bulk_download(saida_json: dict):
   provide_bulk_download = 0
   informacoes_sobre_garantir_acesso_aos_dados = saida_json['principiosGovernanca']['atuais']['regras']['informacoesSobreGarantirAcessoAosDados']
   
-  presenca_tokens = informacoes_sobre_garantir_acesso_aos_dados['download']['presencaTokensUrlsDadosAtualizados'] #?
   arquivos_download_massivo = informacoes_sobre_garantir_acesso_aos_dados['download']['extensoesUrlsVolumeDados']
 
-  if presenca_tokens and arquivos_download_massivo:
+  if arquivos_download_massivo:
     provide_bulk_download = 1
 
   return provide_bulk_download
 
 
+def confere_data_atualizada(data: str):
+  data_atualizada = False
+  formato_data = '%d/%m/%Y %H:%M:%S'
+  data_formatada = datetime.strptime(data, formato_data)
+  ano_corrente = datetime.now().year
+  
+  if data_formatada.year == ano_corrente:
+    data_atualizada = True
+
+  return data_atualizada
+
 def verifica_data_up_to_date(saida_json: dict):
   provide_data_up_to_date = 0
   informacoes_sobre_garantir_acesso_aos_dados = saida_json['principiosGovernanca']['atuais']['regras']['informacoesSobreGarantirAcessoAosDados']
+  informacoes_sobre_metadados = saida_json['principiosGovernanca']['completos']['regras']['informacoesSobreMetadados']
+  data_publicacao = informacoes_sobre_metadados['dataPublicacao']
+  data_ultima_modificacao = informacoes_sobre_metadados['dataUltimaModificacao']
+  data_publicacao_atualizada = False
+  data_ultima_modificacao_atualizada = False
 
+  # verificar data de ultima atualização ou data de publicação - verificar se está no ano atual - Concluído
   presenca_tokens_urls_dados_atualizados = informacoes_sobre_garantir_acesso_aos_dados['download']['presencaTokensUrlsDadosAtualizados']
-  
-  if presenca_tokens_urls_dados_atualizados:
+
+  if data_publicacao:
+    data_publicacao_atualizada = confere_data_atualizada(data_publicacao)
+  if data_ultima_modificacao:
+    data_ultima_modificacao_atualizada = confere_data_atualizada(data_ultima_modificacao)
+  data_atualizada = data_publicacao_atualizada or data_ultima_modificacao_atualizada
+
+  if presenca_tokens_urls_dados_atualizados and data_atualizada:
     provide_data_up_to_date = 1
 
   return provide_data_up_to_date
 
 
-def verifica_persistent_uris_as_identifiers_of_datasets(saida_json: dict):
+def verifica_persistent_uris_as_identifiers_of_datasets(saida_json: dict): # conferir novamente
   use_persistent_uris_as_identifiers_of_datasets = 0
   informacoes_sobre_identificadores_de_dados = saida_json['principiosGovernanca']['processaveisPorMaquina']['regras']['informacoesSobreIdentificadoresDeDados']
   
   presenca_tokens = informacoes_sobre_identificadores_de_dados['presencaDeURLsPersistentes']['indicativosURLsConjDados']['presencaTokensURL']
+  # corrigir para buscar termos relacionados a dados abertos na URL
   urls_com_formato_dados = informacoes_sobre_identificadores_de_dados['presencaDeURLsPersistentes']['indicativosURLsConjDados']['urlsComFormatoDados']
   url_dominio_diferente = False
   dominio_portal = 'dados.gov.br'
