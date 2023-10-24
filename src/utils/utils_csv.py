@@ -2,6 +2,7 @@ import json
 import os
 import pandas as pd
 from datetime import datetime
+from utils.utils_jsons import colhe_tokens_especificos_dados_abertos
 
 
 def verifica_metadata(saida_json: dict):
@@ -16,10 +17,17 @@ def verifica_metadata(saida_json: dict):
     provide_metadata = 1
     
   if provide_metadata:
+    possibilidade_contato = 0
+    emails = informacoes_sobre_metadados['emails']
+    if emails:
+      for email in emails:
+        if '@' in email:
+          possibilidade_contato = 1
+
     titulo = 1 if informacoes_sobre_metadados['titulo'] else 0
     data_ultima_modificacao = 1 if informacoes_sobre_metadados['dataUltimaModificacao'] else 0
-    possibilidade_contato = 1 if '@' in informacoes_sobre_metadados['emails'] else 0 # checar @ - Concluído
     data_publicacao = 1 if informacoes_sobre_metadados['dataPublicacao'] else 0
+
     agregador = [titulo, data_publicacao, possibilidade_contato, data_ultima_modificacao]
     soma_agregador = sum(agregador)
     if soma_agregador >= 2:
@@ -112,7 +120,6 @@ def verifica_data_up_to_date(saida_json: dict):
   data_publicacao_atualizada = False
   data_ultima_modificacao_atualizada = False
 
-  # verificar data de ultima atualização ou data de publicação - verificar se está no ano atual - Concluído
   presenca_tokens_urls_dados_atualizados = informacoes_sobre_garantir_acesso_aos_dados['download']['presencaTokensUrlsDadosAtualizados']
 
   if data_publicacao:
@@ -127,13 +134,12 @@ def verifica_data_up_to_date(saida_json: dict):
   return provide_data_up_to_date
 
 
-def verifica_persistent_uris_as_identifiers_of_datasets(saida_json: dict): # conferir novamente
+def verifica_persistent_uris_as_identifiers_of_datasets(saida_json: dict):
   use_persistent_uris_as_identifiers_of_datasets = 0
   informacoes_sobre_identificadores_de_dados = saida_json['principiosGovernanca']['processaveisPorMaquina']['regras']['informacoesSobreIdentificadoresDeDados']
   
-  presenca_tokens = informacoes_sobre_identificadores_de_dados['presencaDeURLsPersistentes']['indicativosURLsConjDados']['presencaTokensURL']
-  # corrigir para buscar termos relacionados a dados abertos na URL
   urls_com_formato_dados = informacoes_sobre_identificadores_de_dados['presencaDeURLsPersistentes']['indicativosURLsConjDados']['urlsComFormatoDados']
+  presenca_tokens = bool(colhe_tokens_especificos_dados_abertos({'urls' : urls_com_formato_dados}))
   url_dominio_diferente = False
   dominio_portal = 'dados.gov.br'
   
