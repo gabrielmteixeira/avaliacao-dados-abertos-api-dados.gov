@@ -163,7 +163,7 @@ def processa_atributo_download(conjunto_de_dados: dict):
                                         r'(data|atualiza[cç][aã]o|[uú]ltima|frequ[eê]ncia|criado' \
                                         r'|cria[cç][aã]o|atualizado|cobertura|temporal|validade)' \
                                         r'(?:[\s.,;:!?_\'\"/]+|\b)'
-  conjunto_de_dados_string = json.dumps(conjunto_de_dados)
+  conjunto_de_dados_string = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
   tokens_encontrados_urls_dados_atualizados = re.findall(regex_tokens, conjunto_de_dados_string, re.IGNORECASE)
   tokens_urls_dados_atualizados.extend(set(tokens_encontrados_urls_dados_atualizados))
   if tokens_urls_dados_atualizados:
@@ -197,7 +197,7 @@ def processa_atributo_apis(conjunto_de_dados: dict):
                             r'(?:[\s.,;:!?_\'\"/]+|\b)'
   for recurso in recursos:
     formato_recurso = recurso.get('format')
-    formato_recurso_string = json.dumps(formato_recurso)
+    formato_recurso_string = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
     recurso_string = json.dumps(recurso)
     tokens_pagina_api_formato_recurso = re.findall(regex_tokens_pagina_api, formato_recurso_string, re.IGNORECASE)
     tokens_doc_api_formato_recurso = re.findall(regex_tokens_doc_api, formato_recurso_string, re.IGNORECASE)
@@ -298,7 +298,7 @@ def processa_preservacao_dos_dados(conjunto_de_dados: dict):
                   r'(Manuten[cç][aã]o|Breve|arquivado|arquivamento|c[oó]pia' \
                   r'|substitui[cç][aã]o|substitu[ií]do|removido|remo[cç][aã]o)' \
                   r'(?:[\s.,;:!?_\'\"/]+|\b)'
-  conjunto_de_dados_string = json.dumps(conjunto_de_dados)
+  conjunto_de_dados_string = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
   tokens_encontrados = re.findall(regex_tokens, conjunto_de_dados_string, re.IGNORECASE)
   tokens.extend(set(tokens_encontrados))
   if tokens:
@@ -321,7 +321,7 @@ def processa_republicacao_dos_dados(conjunto_de_dados: dict):
   regex_tokens = r'(?:[\s.,;:!?_\'\"/]+|\b)' \
                   r'(fonte original|proced[eê]ncia|cita[cç][aã]o|publica[cç][aã]o original|licen[cç]a|publicador)' \
                   r'(?:[\s.,;:!?_\'\"/]+|\b)'
-  conjunto_de_dados_string = json.dumps(conjunto_de_dados)
+  conjunto_de_dados_string = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
   tokens_encontrados = re.findall(regex_tokens, conjunto_de_dados_string, re.IGNORECASE)
   tokens.extend(set(tokens_encontrados))
   if tokens:
@@ -495,6 +495,52 @@ def processa_principios_governanca(conjunto_de_dados: dict):
   return principios_governanca
 
 
+def colhe_tokens_comuns(conjunto_de_dados: dict):
+  tokens = []
+  regex_tokens = r'(?:[\s.,;:!?_\'\"/]+|\b)' \
+                  r'(informa[cç][oõ]es|adicionais|dados' \
+                  r'|crit[eé]rios|conjunto|t[ií]tulo|palavra|palavras|chave' \
+                  r'|data|publica[cç][aã]o|cria[cç][aã]o|atualiza[cç][aã]o|contato' \
+                  r'|refer[eê]ncia|refer[eê]ncias|respons[aá]vel|respons[aá]veis|idioma' \
+                  r'|fonte|fontes|vers[aã]o|tema|metadado' \
+                  r'|estrutural|estruturais|campo|campos|tipo' \
+                  r'|[uú]ltima|modifica[cç][aã]o|geogr[aá]fica|temporal|escopo|geopol[ií]tico|autor|autores|criado' \
+                  r'|entidade|ponto|per[ií]odo|temas|categorias|formatos|m[ií]dia|licen[cç]a' \
+                  r'|licen[cç]as|conte[uú]do|recursos|termos|restri[cç][oõ]es|restri[cç][aã]o|criador|criadores|[aá]rea' \
+                  r'|editor|editora|editores|editoras|qualidade|disponibilidade|atual|hist[oó]rico|obsoleto|mudan[cç]as' \
+                  r'|modifica[cç][oõ]es|[uú]ltimas|feedback|formul[aá]rio|rank|ranqueamento|esperado|avalia[cç][aã]o|avalia[cç][oõ]es|bot[aã]o' \
+                  r'|bot[oõ]es|coment[aá]rio|questionamento|classifica|classifica[cç][aã]o|corre[cç][aã]o|revis[aã]o|compartilhar|compartilhe|informe|fale' \
+                  r'|entre|sugest[oõ]es|original|proced[eê]ncia|cita[cç][aã]o|publicador|atualizado|validade|documenta[cç][aã]o' \
+                  r'|manual|par[aâ]metros|especifica[cç][aã]o|webservice|REST|RESTful|consumo|retorno|resultados|m[eé]todo|GET' \
+                  r'|URL|cabe[cç]alhos|headers|linguagem|padr[aã]o|exportar|explorar' \
+                  r'|estrutura|escolher|manuten[cç][aã]o|breve|arquivado|arquivamento|c[oó]pia|substitui[cç][aã]o|substitu[ií]do|removido' \
+                  r'|remo[cç][aã]o|tempo|adotado|dispon[ií]vel)' \
+                  r'(?:[\s.,;:!?_\'\"/]+|\b)'
+
+  conjunto_de_dados_string = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
+  tokens_encontrados = re.findall(regex_tokens, conjunto_de_dados_string, re.IGNORECASE)
+  tokens.extend(set(tokens_encontrados))
+
+  return tokens
+
+def colhe_tokens_especificos_dados_abertos(conjunto_de_dados: dict):
+  tokens = []
+  regex_tokens = r'(?:[\s.,;:!?_\'\"/]+|\b)' \
+                  r'(metadados|dicion[aá]rio|dicion[aá]rios|dicion[aá]rio dados|taxonomia|crit[eé]rio|crit[eé]rios|descri[cç][aã]o conjunto dados' \
+                  r'|URI|frequ[eê]ncia|granularidade|mantenedor|mantenedores|formato data|metadado estrutural|metadados estruturais' \
+                  r'|tipo dados|m[eé]trica|[uú]ltima modifica[cç][aã]o|[uú]ltima atualiza[cç][aã]o|descri[cç][aã]o|cobertura geogr[aá]fica' \
+                  r'|cobertura temporal|escopo geopol[ií]tico|entidade respons[aá]vel|ponto contato|per[ií]odo temporal|data [uú]ltima modifica[cç][aã]o' \
+                  r'|formato|formato m[ií]dia|identificador|rela[cç][aã]o|tipo conte[uú]do|qualidade dados|integridade|integridade dados' \
+                  r'|disponibilidade dados|hist[oó]rico mudanças|hist[oó]rico modifica[cç][oõ]es|hist[oó]rico modifica[cç][aã]o|[uú]ltimas modifica[cç][oõ]es' \
+                  r'|periodicidade|API|APIs|documenta[cç][aã]o API|csv|xml|json|rdf|dados|estruturados|dados abertos)' \
+                  r'(?:[\s.,;:!?_\'\"/]+|\b)'
+
+  conjunto_de_dados_string = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
+  tokens_encontrados = re.findall(regex_tokens, conjunto_de_dados_string, re.IGNORECASE)
+  tokens.extend(set(tokens_encontrados))
+
+  return tokens
+
 def processa_conjunto_de_dados(caminho_conjunto_de_dados: str):
   conjunto_de_dados = {}
 
@@ -509,18 +555,22 @@ def processa_conjunto_de_dados(caminho_conjunto_de_dados: str):
   except json.JSONDecodeError as e:
     print(f"Erro no parsing do JSON no arquivo modelo_saida.json: {e}")
 
+  tokens_comuns = colhe_tokens_comuns(conjunto_de_dados)
+  tokens_especificos_dados_abertos = colhe_tokens_especificos_dados_abertos(conjunto_de_dados)
+
   principios_de_governanca = processa_principios_governanca(conjunto_de_dados)
+  possivel_api = principios_de_governanca['atuais']['regras']['informacoesSobreGarantirAcessoAosDados']['APIs']['presencaTokensPaginaAPI']
 
   saida_json = {
     'urlPaginaPrincipal' : 'https://dados.gov.br/dados/conjuntos-dados/{}'.format(conjunto_de_dados['name']),
     'dataAvaliacao' : datetime.now().strftime('%d/%m/%Y'),
-    'presencaTokensComuns' : None,
-    'tokensComuns' : [],
-    'presencaTokensEspecificosDadosAbertos' : None,
-    'tokensEspecificosDadosAbertos' : [],
+    'presencaTokensComuns' : bool(tokens_comuns),
+    'tokensComuns' : tokens_comuns,
+    'presencaTokensEspecificosDadosAbertos' : bool(tokens_especificos_dados_abertos),
+    'tokensEspecificosDadosAbertos' : tokens_especificos_dados_abertos,
     'presencaURLsDownloadDados' : principios_de_governanca['completos']['regras']['informacoesSobreMetadados']['presencaURLsArquivosMetadadosAnexos'],
     'possivelFalsoPositivo' : False,
-    'possivelAPI' : False,
+    'possivelAPI' : possivel_api,
     'principiosGovernanca' : principios_de_governanca
   }
 
