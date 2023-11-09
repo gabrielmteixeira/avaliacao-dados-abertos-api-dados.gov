@@ -195,14 +195,19 @@ def verifica_cite_the_original_publication(saida_json: dict):
 
 def processa_saida_json(saida_json: dict, id_json: int):
   site = saida_json['urlPaginaPrincipal']
+  titulo = saida_json['principiosGovernanca']['completos']['regras']['informacoesSobreMetadados']['titulo']
   data_avaliacao = saida_json['dataAvaliacao']
+  possivel_falso_positivo = 1 if saida_json['possivelFalsoPositivo'] else 0
+  possivel_api = 1 if saida_json['principiosGovernanca']['atuais']['regras']['informacoesSobreGarantirAcessoAosDados']['APIs']['presencaTokensPaginaAPI'] else 0
   provide_metadata, provide_descriptive_metadata = verifica_metadata(saida_json)
 
   boas_praticas_dados_web = {
     'idJson' : id_json,
     'site' : site,
-    'data_avaliacao' : data_avaliacao,
-    'possivel_falso_positivo' : saida_json['possivelFalsoPositivo'],
+    'title' : titulo,
+    'assessment_date' : data_avaliacao,
+    'possible_false_positive' : possivel_falso_positivo,
+    'possible_api' : possivel_api,
     'provide_metadata' : provide_metadata,
     'provide_descriptive_metadata' : provide_descriptive_metadata,
     'provide_data_license_information' : verifica_data_license_information(saida_json),
