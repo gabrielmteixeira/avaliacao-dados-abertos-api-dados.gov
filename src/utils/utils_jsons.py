@@ -56,8 +56,9 @@ def processa_licenca(conjunto_de_dados: dict):
   tokens = []
 
   if licencas:
-    presenca_tokens = True
-    tokens = ['licenca']
+    if isinstance(licencas, list) or licencas != "notspecified":
+      presenca_tokens = True
+      tokens = ['licenca']
 
   licenca = {
     'presencaTokens' : presenca_tokens,
@@ -197,8 +198,8 @@ def processa_atributo_apis(conjunto_de_dados: dict):
                             r'(?:[\s.,;:!?_\'\"/]+|\b)'
   for recurso in recursos:
     formato_recurso = recurso.get('format')
-    formato_recurso_string = json.dumps(conjunto_de_dados, ensure_ascii=False, indent=2)
-    recurso_string = json.dumps(recurso)
+    formato_recurso_string = json.dumps(formato_recurso, ensure_ascii=False, indent=2)
+    recurso_string = json.dumps(recurso, ensure_ascii=False, indent=2)
     tokens_pagina_api_formato_recurso = re.findall(regex_tokens_pagina_api, formato_recurso_string, re.IGNORECASE)
     tokens_doc_api_formato_recurso = re.findall(regex_tokens_doc_api, formato_recurso_string, re.IGNORECASE)
     if tokens_pagina_api_formato_recurso or tokens_doc_api_formato_recurso:
