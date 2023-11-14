@@ -154,11 +154,11 @@ def processa_atributo_download(conjunto_de_dados: dict):
       if url_recurso: 
         formatos_recurso = recurso.get('format').split('+')
         for formato in formatos_recurso:
-          extensao = (f".{formato}").lower()
-          if extensao in url_recurso and extensao in ['.zip', '.tar', '.rar', '.gz', '7z']:
+          formato = str(formato).lower()
+          if formato in ['zip', 'tar', 'rar', 'gz', '7z']:
             urls_volume_dados.append(url_recurso)
-            if extensoes_download_massivo not in extensoes_download_massivo:
-              extensoes_download_massivo.append(extensao)
+            if formato not in extensoes_download_massivo:
+              extensoes_download_massivo.append(formato)
 
   regex_tokens = r'(?:[\s.,;:!?_\'\"/]+|\b)' \
                                         r'(data|atualiza[cç][aã]o|[uú]ltima|frequ[eê]ncia|criado' \
@@ -249,13 +249,16 @@ def processa_identificadores_dados(conjunto_de_dados: dict):
         urls_subdominios_adm_separados_principal.append(url_recurso)
         formatos_recurso = recurso.get('format').split('+')
         for formato in formatos_recurso:
-          extensao = (f".{formato}").lower()
-          if extensao not in formatos_dados:
-            formatos_dados.append(extensao)
-          if extensao in url_recurso:
+          formato = str(formato).lower()
+
+          regex_formato = r'(?:[\s.,;:!?_\'\"/]+|\b)({})(?:[\s.,;:!?_\'\"/]+|\b)'.format(formato)
+          url_com_formato = re.search(regex_formato, url_recurso, re.IGNORECASE)
+          if formato not in formatos_dados:
+            formatos_dados.append(formato)
+          if url_com_formato:
             urls_com_formato_dados.append(url_recurso)
-            if extensao not in tokens_url:
-              tokens_url.append(extensao)
+            if formato not in tokens_url:
+              tokens_url.append(formato)
 
   identificadores_dados = {
     'presencaDeURLsPersistentes' : {
