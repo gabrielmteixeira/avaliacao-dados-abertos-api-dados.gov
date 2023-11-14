@@ -1,8 +1,8 @@
 import json
+import re
 import os
 import pandas as pd
 from datetime import datetime
-from utils.utils_jsons import colhe_tokens_especificos_dados_abertos
 
 
 def verifica_metadata(saida_json: dict):
@@ -136,16 +136,25 @@ def verifica_data_up_to_date(saida_json: dict):
 
 def verifica_persistent_uris_as_identifiers_of_datasets(saida_json: dict):
   use_persistent_uris_as_identifiers_of_datasets = 0
+  presenca_tokens = False
+  url_dominio_diferente = False
+  dominio_portal = 'dados.gov.br'
   informacoes_sobre_identificadores_de_dados = saida_json['principiosGovernanca']['processaveisPorMaquina']['regras']['informacoesSobreIdentificadoresDeDados']
   
   urls_com_formato_dados = informacoes_sobre_identificadores_de_dados['presencaDeURLsPersistentes']['indicativosURLsConjDados']['urlsComFormatoDados']
-  presenca_tokens = bool(colhe_tokens_especificos_dados_abertos({'urls' : urls_com_formato_dados}))
-  url_dominio_diferente = False
-  dominio_portal = 'dados.gov.br'
-  
+  regex_tokens_pagina_api = r'(?:[\s.,;:!?_\'\"/]+|\b)' \
+                            r'(ibge|arquivo|dado|dados|api|conjunto|serie|abertos|dados-abertos' \
+                            r'|data|informacao|dadosabertos|documentos|documents|base|relatorio|arquivos' \
+                            r'|xls|pdf|csv|json|zip|tar|rar|gz|7z|dataset|download|resource)' \
+                            r'(?:[\s.,;:!?_\'\"/]+|\b)'
+
   for url in urls_com_formato_dados:
+    tokens_url = re.findall(regex_tokens_pagina_api, url, re.IGNORECASE)
+    if tokens_url:
+      presenca_tokens = True
     if dominio_portal not in url:
       url_dominio_diferente = True
+
   if presenca_tokens and url_dominio_diferente:
     use_persistent_uris_as_identifiers_of_datasets = 1
 
