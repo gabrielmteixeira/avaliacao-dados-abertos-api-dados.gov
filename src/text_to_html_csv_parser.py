@@ -19,13 +19,13 @@ diretorio_saida_csv = "saida_csv"
 caminho_csv_entrada = os.path.join(diretorio_saida_csv, 'resultado_bruto_dados.gov.csv')
 caminho_csv_saida = os.path.join(diretorio_saida_csv, 'resultado_dados.gov.csv')
 
-df = pd.read_csv(caminho_csv_entrada)
+df = pd.read_csv(caminho_csv_entrada, na_filter=False, keep_default_na=False)
 title = []
 description = []
 
 for index, row in df.iterrows():
-    title.append(converter(str(row['title'])))
-    description.append(converter(str(row['description'])))
+    title.append(converter(row['title']))
+    description.append(converter(row['description']))
 
 df['title'] = pd.Series(title)
 df['description'] = pd.Series(description)
