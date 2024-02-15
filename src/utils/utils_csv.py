@@ -250,5 +250,5 @@ def gera_csv_dwbp(diretorio_saidas_json: str, diretorio_saida_csv: str):
       analise_boas_praticas = pd.concat([analise_boas_praticas, nova_linha_analise_boas_praticas], ignore_index=True)
 
   os.makedirs(diretorio_saida_csv, exist_ok=True)
-  caminho_csv = os.path.join(diretorio_saida_csv, 'resultado_dados.gov.csv')
+  caminho_csv = os.path.join(diretorio_saida_csv, 'resultado_bruto_dados.gov.csv')
   analise_boas_praticas.to_csv(caminho_csv, index=False)
