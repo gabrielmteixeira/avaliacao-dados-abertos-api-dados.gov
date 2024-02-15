@@ -206,6 +206,7 @@ def processa_saida_json(saida_json: dict, id_json: int):
   site = saida_json['urlPaginaPrincipal']
   titulo = saida_json['principiosGovernanca']['completos']['regras']['informacoesSobreMetadados']['titulo']
   data_avaliacao = saida_json['dataAvaliacao']
+  descricao = saida_json['principiosGovernanca']['completos']['regras']['informacoesSobreMetadados']['descricao']
   possivel_falso_positivo = 1 if saida_json['possivelFalsoPositivo'] else 0
   possivel_api = 1 if saida_json['principiosGovernanca']['atuais']['regras']['informacoesSobreGarantirAcessoAosDados']['APIs']['presencaTokensPaginaAPI'] else 0
   provide_metadata, provide_descriptive_metadata = verifica_metadata(saida_json)
@@ -214,9 +215,10 @@ def processa_saida_json(saida_json: dict, id_json: int):
     'idJson' : id_json,
     'site' : site,
     'title' : titulo,
-    'assessment_date' : data_avaliacao,
+    'description' : descricao,
+    'analysis_date' : data_avaliacao,
     'possible_false_positive' : possivel_falso_positivo,
-    'possible_api' : possivel_api,
+    'provide_api_reference' : possivel_api,
     'provide_metadata' : provide_metadata,
     'provide_descriptive_metadata' : provide_descriptive_metadata,
     'provide_data_license_information' : verifica_data_license_information(saida_json),
@@ -248,5 +250,5 @@ def gera_csv_dwbp(diretorio_saidas_json: str, diretorio_saida_csv: str):
       analise_boas_praticas = pd.concat([analise_boas_praticas, nova_linha_analise_boas_praticas], ignore_index=True)
 
   os.makedirs(diretorio_saida_csv, exist_ok=True)
-  caminho_csv = os.path.join(diretorio_saida_csv, 'resultado.csv')
+  caminho_csv = os.path.join(diretorio_saida_csv, 'resultado_dados.gov.csv')
   analise_boas_praticas.to_csv(caminho_csv, index=False)

@@ -4,6 +4,36 @@ import os
 from datetime import datetime
 
 
+def reduz_descricao(texto_bruto_descricao: str | None) -> str  | None:
+  padrao_regex = re.compile(r'^(.*?)(?:,|\.(?!.*?,)|\n(?!.*[,.]))')
+  match = padrao_regex.match(texto_bruto_descricao)
+  if match:
+    descricao_reduzida = match.group(1)
+    return descricao_reduzida
+  else:
+    return texto_bruto_descricao
+
+
+def remove_alerta_padrao_da_api(descricao: str | None) -> str  | None:
+  # a API do dados.gov insere, em alguns campos de descrição, um alerta padrão de formato. Tal alerta não é interessante para o projeto
+  match = re.search(r'(.*?) \* \* \*', descricao)
+  if match:
+    descricao_sem_alerta = match.group(1)
+    return descricao_sem_alerta
+  else:
+    return descricao
+
+
+def processa_atributo_descricao(texto_bruto_descricao: str | None) -> str | None:
+  descricao_reduzida = None
+  if texto_bruto_descricao:
+    descricao_sem_alerta = remove_alerta_padrao_da_api(texto_bruto_descricao)
+    descricao_limpa = descricao_sem_alerta.strip().replace("\n", "").replace("\r", "")
+    descricao_limpa = re.sub(r'\s+', ' ', descricao_limpa) # Substituí ocorrências de múltiplos espaços susequentes por um único espaço.
+    descricao_reduzida = reduz_descricao(descricao_limpa)
+  return descricao_reduzida
+
+
 def processa_metadados(conjunto_de_dados: dict):
   recursos = conjunto_de_dados.get('resources')
   presenca_tokens = True
@@ -11,6 +41,7 @@ def processa_metadados(conjunto_de_dados: dict):
   presenca_url_arquivo_metadados_anexos = False
   urls_arquivos_metadados_anexos = []
   titulo = conjunto_de_dados['title']
+  descricao = processa_atributo_descricao(conjunto_de_dados.get('notes'))
   email_responsavel = conjunto_de_dados['conjuntoDadosEdicao']['emailResponsavel']
   data_publicacao = conjunto_de_dados['metadata_created']
   data_ultima_modificacao = conjunto_de_dados['metadata_modified']
@@ -42,6 +73,7 @@ def processa_metadados(conjunto_de_dados: dict):
     'presencaURLsArquivosMetadadosAnexos' : presenca_url_arquivo_metadados_anexos,
     'URLsArquivosMetadadosAnexos' : urls_arquivos_metadados_anexos,
     'titulo' : titulo,
+    'descricao' : descricao,
     'emails' : email_responsavel,
     'dataPublicacao' : data_publicacao,
     'dataUltimaModificacao' : data_ultima_modificacao
