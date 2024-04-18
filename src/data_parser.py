@@ -1,5 +1,3 @@
-import json
-import os
 import time
 from utils.utils_jsons import gera_saidas_json
 from utils.utils_csv import gera_csv_dwbp
